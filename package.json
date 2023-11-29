@@ -9,12 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@itseasy21/react-elastic-carousel": "^0.12.3",
+    "embla-carousel-react": "^8.0.0-rc14",
+    "i": "^0.3.7",
+    "next": "14.0.3",
+    "npm": "^10.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.3"
+    "react-multi-carousel": "^2.8.4",
+    "react-player": "^2.13.0",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.16",
     "eslint": "^8",
-    "eslint-config-next": "14.0.3"
+    "eslint-config-next": "14.0.3",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5"
   }
 }

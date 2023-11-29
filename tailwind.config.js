@@ -16,10 +16,6 @@ module.exports = {
       backgroundImage: {
         'my_bg_image' : "url('/assets/FeaturedCoverImage.png')",
       }
-      // margin: {
-      //   '10%': '10%',
-      //   '25%': '25%',
-      // }
     },
   },
   plugins: [],

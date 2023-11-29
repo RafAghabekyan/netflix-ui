@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const CarouselItem = ({ coverImage, item, setMainFeatured }) => {
+const CarouselItem = ({ item, setMainFeatured }) => {
   const handleClick = useCallback(() => {
     setMainFeatured(item);
     sessionStorage.setItem("mainFeaturedId", item.Id);
@@ -21,19 +21,10 @@ const CarouselItem = ({ coverImage, item, setMainFeatured }) => {
 
 export const Trending = ({ carouselItems, setMainFeatured }) => {
   const sliderRef = useRef(null);
-  // const [sortedCarouselItems, setSortedCarouselItems] = useState(null);
-
-  // useEffect(() => {
-  //   const sortedCarouselItems = carouselItems.slice(0, 50).sort((a, b) => {
-  //     return new Date(b.Date) - new Date(a.Date);
-  //   });
-  //   setSortedCarouselItems(sortedCarouselItems);
-  // }, [carouselItems]);
 
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
-      console.log("aaaaaaaaaaa");
       if (e.deltaY < 0) {
         sliderRef.current.slickNext();
       } else if (e.deltaY > 0) {

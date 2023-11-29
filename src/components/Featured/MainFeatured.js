@@ -12,8 +12,8 @@ const mockTrendingNow = mock.TrendingNow;
 
 export const MainFeatured = () => {
   const videoInitialiserTimeout = useRef(null);
-  const [mainFeatured, setMainFeatured] = useState(mockFeatured);
-  const [trendingNow, setTrendingNow] = useState(mockTrendingNow);
+  const [mainFeatured, setMainFeatured] = useState(null);
+  const [trendingNow, setTrendingNow] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
 
   const DynamicReactPlayer = dynamic(() => import("react-player"), {
@@ -22,24 +22,24 @@ export const MainFeatured = () => {
 
   useEffect(() => {
     const mainFeaturedId = sessionStorage.getItem("mainFeaturedId");
+    const sortedByDateTrendingNow = mockTrendingNow.sort((a, b) => {
+      return new Date(b.Date) - new Date(a.Date);
+    });
     if (mainFeaturedId) {
-      const mainFeaturedIndex = mockTrendingNow.findIndex(
+      const mainFeaturedIndex = sortedByDateTrendingNow.findIndex(
         (trendingNow) => trendingNow.Id === mainFeaturedId
       );
-      setMainFeatured(mockTrendingNow[mainFeaturedIndex]);
-      const sortedTrendingNow = mockTrendingNow.slice(mainFeaturedIndex, 50);
+      setMainFeatured(sortedByDateTrendingNow[mainFeaturedIndex]);
+      const sortedTrendingNow = sortedByDateTrendingNow.slice(mainFeaturedIndex, 50);
       setTrendingNow(sortedTrendingNow);
     } else {
       setMainFeatured(mockFeatured);
-      const sortedTrendingNow = mockTrendingNow.slice(0, 50).sort((a, b) => {
-        return new Date(b.Date) - new Date(a.Date);
-      });
-      setTrendingNow(sortedTrendingNow);
+      setTrendingNow(sortedByDateTrendingNow);
     }
   }, [mainFeatured, setMainFeatured, setTrendingNow]);
 
   useEffect(() => {
-    if (mainFeatured.VideoUrl) {
+    if (mainFeatured?.VideoUrl) {
       videoInitialiserTimeout.current = setTimeout(() => {
         setShowVideo(true);
       }, 2000);
@@ -56,14 +56,14 @@ export const MainFeatured = () => {
       className={`relative w-full h-full overflow-hidden ${
         showVideo
           ? ""
-          : `bg-no-repeat bg-cover bg-[url('/assets/${mainFeatured.CoverImage}')]`
+          : `bg-no-repeat bg-cover bg-[url('/assets/${mainFeatured?.CoverImage}')]`
       } `}
     >
       {showVideo ? (
         // TODO: add aspect ratio for smaller devices
         <div className="relative w-full h-full pt-[56.25%]">
           <DynamicReactPlayer
-            url="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+            url={mainFeatured?.VideoUrl}
             controls={false}
             width="100%"
             height="100%"
@@ -75,12 +75,12 @@ export const MainFeatured = () => {
         </div>
       ) : (
         <MainFeaturedContent
-          category={mainFeatured.Category}
-          titleImage={mainFeatured.TitleImage}
-          releaseYear={mainFeatured.ReleaseYear}
-          mpaRating={mainFeatured.MpaRating}
-          duration={mainFeatured.Duration}
-          description={mainFeatured.Description}
+          category={mainFeatured?.Category}
+          titleImage={mainFeatured?.TitleImage}
+          releaseYear={mainFeatured?.ReleaseYear}
+          mpaRating={mainFeatured?.MpaRating}
+          duration={mainFeatured?.Duration}
+          description={mainFeatured?.Description}
         />
       )}
       <Trending carouselItems={trendingNow} setMainFeatured={setMainFeatured} />
